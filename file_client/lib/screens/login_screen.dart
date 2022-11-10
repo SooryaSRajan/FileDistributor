@@ -13,8 +13,9 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: Card(
         child: SizedBox(
-          width: MediaQuery.of(context).size.width,
+          width: MediaQuery.of(context).size.width / 4,
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text("Login"),
