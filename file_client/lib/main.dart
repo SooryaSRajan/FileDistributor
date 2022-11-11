@@ -1,4 +1,5 @@
 import 'package:file_client/screens/file_screen.dart';
+import 'package:file_client/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData.dark(),
-      home: const FileScreen(),
+      home: const LoginScreen(),
     );
   }
 }

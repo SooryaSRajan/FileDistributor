@@ -6,9 +6,12 @@ import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 import '../widgets/alert_dialog.dart';
 import '../widgets/file_item_card.dart';
+import '../widgets/progress_dialog.dart';
 
 class FileScreen extends StatefulWidget {
-  const FileScreen({Key? key}) : super(key: key);
+  const FileScreen({Key? key, required this.token}) : super(key: key);
+
+  final String token;
 
   @override
   State<FileScreen> createState() => _FileScreenState();
@@ -17,9 +20,11 @@ class FileScreen extends StatefulWidget {
 class _FileScreenState extends State<FileScreen> {
   List<dynamic> _fileName = [];
   List<dynamic> _fileNameSearch = [];
+  late Map<String, String> requestHeader;
 
   _getFileList() async {
-    var response = await http.get(getURI("/files/getfiles"));
+    var response =
+        await http.get(getURI("/files/getfiles"), headers: requestHeader);
     if (response.statusCode == 200) {
       setState(() {
         _fileName = json.decode(response.body)["files"];
@@ -31,12 +36,13 @@ class _FileScreenState extends State<FileScreen> {
   _uploadFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
 
+    progressDialog(dismissDialog: false, willPop: false, context: context);
     if (result != null) {
       var request = http.MultipartRequest("POST", getURI("/files/uploadFile"));
+      request.headers.addAll(requestHeader);
       request.files.add(http.MultipartFile.fromBytes(
           'file', result.files.single.bytes!.toList(),
           filename: result.files.single.name));
-
       request.send().then((response) {
         if (response.statusCode == 200) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -47,14 +53,17 @@ class _FileScreenState extends State<FileScreen> {
           ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text("File upload failed")));
         }
+        Navigator.of(context).pop();
       });
     } else {
       print("No file selected");
+      Navigator.of(context).pop();
     }
   }
 
   _deleteFile(fileName) async {
-    var response = await http.delete(getURI("/files/deleteFile/$fileName"));
+    var response = await http.delete(getURI("/files/deleteFile/$fileName"),
+        headers: requestHeader);
     if (response.statusCode == 200) {
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Deleted file successfully!")));
@@ -99,6 +108,7 @@ class _FileScreenState extends State<FileScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      requestHeader = {"auth-token": widget.token};
       _getFileList();
       setState(() {});
     });

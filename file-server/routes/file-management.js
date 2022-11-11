@@ -1,4 +1,5 @@
 const express = require('express')
+const auth = require("./authorisation")
 const router = express.Router()
 const multer = require('multer');
 const path = require('path');
@@ -28,25 +29,25 @@ const upload = multer({
 });
 
 // Get all files
-router.get('/getFiles', (req, res) => {
+router.get('/getFiles', auth, (req, res) => {
     fs.readdir(filePath, function (err, files) {
         if (err) {
             console.log("ERROR: ", err);
             res.header("Access-Control-Allow-Origin", "*");
             res.header("Access-Control-Allow-Methods", "GET,PUT,PATCH,POST,DELETE");
-            res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");          
+            res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
             return res.status(400).send({
                 message: "Error occurred",
                 error: err
             });
-        } 
+        }
         let fileInfos = [];
         files.forEach(function (file) {
             fileInfos.push(file);
         });
         res.header("Access-Control-Allow-Origin", "*");
         res.header("Access-Control-Allow-Methods", "GET,PUT,PATCH,POST,DELETE");
-        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");      
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         res.status(200).send({
             message: "Files retrieved successfully",
             files: fileInfos
@@ -55,7 +56,7 @@ router.get('/getFiles', (req, res) => {
 })
 
 // Upload a file
-router.post('/uploadFile', (req, res) => {
+router.post('/uploadFile', auth, (req, res) => {
     //upload single called file
     //check if file exists
     console.log("UPLOAD")
@@ -64,7 +65,7 @@ router.post('/uploadFile', (req, res) => {
             console.log("ERROR: ", err);
             res.header("Access-Control-Allow-Origin", "*");
             res.header("Access-Control-Allow-Methods", "GET,PUT,PATCH,POST,DELETE");
-            res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");          
+            res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
             return res.status(400).send({
                 message: "Error occurred",
                 error: err
@@ -72,7 +73,7 @@ router.post('/uploadFile', (req, res) => {
         }
         res.header("Access-Control-Allow-Origin", "*");
         res.header("Access-Control-Allow-Methods", "GET,PUT,PATCH,POST,DELETE");
-        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");      
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         res.status(200).send({
             message: "File uploaded successfully",
         });
@@ -80,14 +81,14 @@ router.post('/uploadFile', (req, res) => {
 })
 
 // Delete a file
-router.delete('/deleteFile/:fileName', (req, res) => {
+router.delete('/deleteFile/:fileName', auth, (req, res) => {
     let fileName = req.params.fileName;
     fs.unlink(path.join(filePath, fileName), function (err) {
         if (err) {
             console.log("ERROR: ", err);
             res.header("Access-Control-Allow-Origin", "*");
             res.header("Access-Control-Allow-Methods", "GET,PUT,PATCH,POST,DELETE");
-            res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");          
+            res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
             return res.status(500).send({
                 message: "Error occurred",
                 error: err
@@ -100,20 +101,19 @@ router.delete('/deleteFile/:fileName', (req, res) => {
         res.send({
             message: "File deleted successfully"
         });
-});
+    });
 })
 
 //read a file
 router.get('/downloadFile/:fileName', (req, res) => {
     let fileName = req.params.fileName;
     console.log("DOWNLOAD: ", fileName);
-    try{
+    try {
         res.header("Access-Control-Allow-Origin", "*");
         res.header("Access-Control-Allow-Methods", "GET,PUT,PATCH,POST,DELETE");
         res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         return res.download(path.join(filePath, fileName), fileName);
-    }
-    catch(err){
+    } catch (err) {
         console.log("ERROR: ", err);
         res.header("Access-Control-Allow-Origin", "*");
         res.header("Access-Control-Allow-Methods", "GET,PUT,PATCH,POST,DELETE");
