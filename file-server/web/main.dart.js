@@ -37013,13 +37013,13 @@ if(p<q){k=j.ri(p)
 if(s.$2(a,k)>0){B.c.n(j.b,b,k)
 b=p}}B.c.n(j.b,b,a)}}
 A.FP.prototype={
-M(a,b){return new A.vS(B.DQ,"Flutter Demo",A.aeG(B.a_),null)}}
+M(a,b){return new A.vS(B.DQ,"Amrita FileZ",A.aeG(B.a_),null)}}
 A.mj.prototype={
 au(){return new A.zf([],[],B.m)}}
 A.zf.prototype={
 ky(){var s=0,r=A.a_(t.z),q=this,p,o
 var $async$ky=A.V(function(a,b){if(a===1)return A.X(b,r)
-while(true)switch(s){case 0:p=A.OW("http","localhost:8000","/files/getfiles",null)
+while(true)switch(s){case 0:p=A.OW("http","172.17.18.87:8000","/files/getfiles",null)
 s=2
 return A.W(A.aAx(p,A.a(q.f,"requestHeader")),$async$ky)
 case 2:o=b
@@ -37034,7 +37034,7 @@ case 2:l=b
 k=q.c
 k.toString
 A.aBc(k,!1,!1)
-if(l!=null){k=A.OW("http","localhost:8000","/files/uploadFile",null)
+if(l!=null){k=A.OW("http","172.17.18.87:8000","/files/uploadFile",null)
 p=A.auS("POST",k)
 p.r.K(0,A.a(q.f,"requestHeader"))
 k=l.a
@@ -37055,7 +37055,7 @@ A.jD(k,!1).cD(0)}return A.Y(null,r)}})
 return A.Z($async$t8,r)},
 re(a){var s=0,r=A.a_(t.z),q=this,p,o
 var $async$re=A.V(function(b,c){if(b===1)return A.X(c,r)
-while(true)switch(s){case 0:p=A.OW("http","localhost:8000","/files/deleteFile/"+A.e(a),null)
+while(true)switch(s){case 0:p=A.OW("http","172.17.18.87:8000","/files/deleteFile/"+A.e(a),null)
 s=2
 return A.W(A.an7(p,A.a(q.f,"requestHeader")),$async$re)
 case 2:o=c
@@ -37084,7 +37084,7 @@ k=n.c.L(l)
 k.toString
 k.f.jm(B.H6)
 q=3
-k=A.OW("http","localhost:8000","/files/downloadFile/"+a,null)
+k=A.OW("http","172.17.18.87:8000","/files/downloadFile/"+a,null)
 s=6
 return A.W(n.rC(k),$async$rf)
 case 6:q=1
@@ -37175,7 +37175,7 @@ A.LN.prototype={
 rE(a){return this.a_c(a)},
 a_c(a){var s=0,r=A.a_(t.z),q=this,p,o,n,m
 var $async$rE=A.V(function(b,c){if(b===1)return A.X(c,r)
-while(true)switch(s){case 0:o=A.OW("http","localhost:8000","/auth/login",null)
+while(true)switch(s){case 0:o=A.OW("http","172.17.18.87:8000","/auth/login",null)
 n=t.N
 s=2
 return A.W(A.aB8(o,B.aq.JV(A.az(["password",a],n,n),null),q.d),$async$rE)
