@@ -13,7 +13,7 @@ const loginRoute = require("./routes/authentication")
 app.use(express.json())
 app.use(express.urlencoded({extended: true}));
 app.use(cookieParser())
-app.use('/', express.static(path.join(__dirname, 'web')))
+app.use('/', express.static(path.join(__dirname, '..', 'file_client' ,'build', 'web')))
 
 //routes
 app.use("/files", fileManagementRoute)
